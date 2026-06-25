@@ -57,7 +57,15 @@ public class MecanumDrivetrain extends SubsystemBase {
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
         () -> {
-          drive.driveCartesian(x.getAsDouble(), y.getAsDouble(), z.getAsDouble());
+          double facing = 90;
+          // math below done with assistance by AI
+          double facingrad = Math.toRadians(facing);
+          double xPrime = x.getAsDouble() * Math.cos(facingrad) - y.getAsDouble() * Math.sin(facingrad);
+          double yPrime = x.getAsDouble() * Math.sin(facingrad) + y.getAsDouble() * Math.cos(facingrad);
+
+
+
+          drive.driveCartesian(xPrime, yPrime, z.getAsDouble());
         });
   }
 
