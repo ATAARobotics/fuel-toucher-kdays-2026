@@ -1,0 +1,17 @@
+when:
+  - event: push
+    branch: "**"
+
+steps:
+  - name: build
+    image: wpilib/roborio-cross-ubuntu:2025-24.04
+    commands:
+      - ./gradlew build
+  - name: format
+    image: wpilib/roborio-cross-ubuntu:2025-24.04
+    commands:
+      - ./gradlew spotlessCheck
+  - name: lint
+    image: wpilib/roborio-cross-ubuntu:2025-24.04
+    commands:
+      - ./gradlew pmdMain -Pci
