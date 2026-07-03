@@ -4,18 +4,15 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.DoubleSupplier;
-
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ChassisConstants;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-
+import java.util.function.DoubleSupplier;
 
 import com.studica.frc.AHRS;
 
@@ -24,7 +21,6 @@ public class MecanumDrivetrain extends SubsystemBase {
   private SparkMax LeftFrontMotor, RightFrontMotor, LeftBackMotor, RightBackMotor;
   private MecanumDrive drive;
   private AHRS gyro;
-
 
   /** Creates a new ExampleSubsystem. */
   public MecanumDrivetrain() {
@@ -42,23 +38,16 @@ public class MecanumDrivetrain extends SubsystemBase {
     SparkMaxConfig LeftBackConfig = new SparkMaxConfig();
     SparkMaxConfig RightBackConfig = new SparkMaxConfig();
 
-    LeftFrontConfig
-      .idleMode(IdleMode.kBrake)
-      .inverted(false);
+    LeftFrontConfig.idleMode(IdleMode.kBrake).inverted(false);
 
-    LeftBackConfig
-      .idleMode(IdleMode.kBrake)
-      .inverted(false);
+    LeftBackConfig.idleMode(IdleMode.kBrake).inverted(false);
 
-    RightFrontConfig
-      .idleMode(IdleMode.kBrake)
-      .inverted(true);
+    RightFrontConfig.idleMode(IdleMode.kBrake).inverted(true);
 
-    RightBackConfig
-      .idleMode(IdleMode.kBrake)
-      .inverted(true);
+    RightBackConfig.idleMode(IdleMode.kBrake).inverted(true);
     drive = new MecanumDrive(LeftFrontMotor, LeftBackMotor, RightFrontMotor, RightBackMotor);
   }
+
   // Drive
   public Command driveCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier z) {
     // Inline construction of command goes here.
