@@ -17,13 +17,21 @@ import frc.robot.Constants.ChassisConstants;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 
+import com.studica.frc.AHRS;
+
+
 public class MecanumDrivetrain extends SubsystemBase {
   private SparkMax LeftFrontMotor, RightFrontMotor, LeftBackMotor, RightBackMotor;
   private MecanumDrive drive;
+  private AHRS gyro;
 
 
   /** Creates a new ExampleSubsystem. */
   public MecanumDrivetrain() {
+
+    gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+    gyro.setAngleAdjustment(ChassisConstants.GyroAdjustment);
+
     LeftFrontMotor = new SparkMax(ChassisConstants.FrontLeftMotorID, MotorType.kBrushless);
     RightFrontMotor = new SparkMax(ChassisConstants.FrontRightMotorID, MotorType.kBrushless);
     LeftBackMotor = new SparkMax(ChassisConstants.BackLeftMotorID, MotorType.kBrushless);
@@ -57,13 +65,12 @@ public class MecanumDrivetrain extends SubsystemBase {
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
         () -> {
-          double facing = 90;
+          double facing = gyro.getYaw();
           // math below done with assistance by AI
-          double facingrad = Math.toRadians(facing);
+          // invert direction to cancel out relative direction instead of multiply
+          double facingrad = -Math.toRadians(facing);
           double xPrime = x.getAsDouble() * Math.cos(facingrad) - y.getAsDouble() * Math.sin(facingrad);
           double yPrime = x.getAsDouble() * Math.sin(facingrad) + y.getAsDouble() * Math.cos(facingrad);
-
-
 
           drive.driveCartesian(xPrime, yPrime, z.getAsDouble());
         });
