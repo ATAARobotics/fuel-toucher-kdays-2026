@@ -18,17 +18,9 @@
     {
       "name": "WPIlibUnitTests",
       "workingDirectory": "${workspaceFolder}/build/jni/release",
-<<<<<<< HEAD
       "vmargs": [ "-Djava.library.path=${workspaceFolder}/build/jni/release" ],
       "env": {
         "LD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release" ,
-=======
-      "vmargs": [
-        "-Djava.library.path=${workspaceFolder}/build/jni/release"
-      ],
-      "env": {
-        "LD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release",
->>>>>>> main
         "DYLD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release"
       }
     },
@@ -65,10 +57,6 @@
     "edu.wpi.first.math.**.proto.*",
     "edu.wpi.first.math.**.struct.*",
   ],
-<<<<<<< HEAD
-  "java.dependency.enableDependencyCheckup": false
-}
-=======
   "java.dependency.enableDependencyCheckup": false,
   "java.format.enabled": false,
   "files.trimTrailingWhitespace": false,
@@ -84,4 +72,3 @@
     "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle"
   }
 }
->>>>>>> main
