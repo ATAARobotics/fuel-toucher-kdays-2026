@@ -40,7 +40,6 @@ public final class Constants {
     public static final int BackLeftMotorID = 1;
     public static final int FrontRightMotorID = 2;
     public static final int BackRightMotorID = 3;
-    public static final double GyroAdjustment = 0;
 
     public static final int ClimbSolenoid1ID = 1;
     public static final int ClimbSolenoid2ID = 2;
