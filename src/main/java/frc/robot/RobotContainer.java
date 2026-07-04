@@ -45,17 +45,15 @@ public class RobotContainer {
    */
   private void configureBindings() {
     mecanumDrive.setDefaultCommand(
-        mecanumDrive.driveCommand(
-            m_driverController::getY,
-            m_driverController::getY,
-            m_driverController::getZ));
-    miscSubsystem.setDefaultCommand(
-      miscSubsystem.overrideCommand(
-        m_driverController.button(5)::getAsBoolean,
-        m_driverController.button(3)::getAsBoolean,
-        m_driverController.button(6)::getAsBoolean,
-        m_driverController.button(4)::getAsBoolean
-      )
+      mecanumDrive.driveCommand(
+        m_driverController::getY,
+        m_driverController::getY,
+        m_driverController::getZ
+    ));
+    m_driverController.button(5).onChange(miscSubsystem.climbCommand(m_driverController.button(5)::getAsBoolean, m_driverController.button(3)::getAsBoolean));
+    m_driverController.button(3).onChange(miscSubsystem.climbCommand(m_driverController.button(5)::getAsBoolean, m_driverController.button(3)::getAsBoolean));
+    m_driverController.button(6).onChange(miscSubsystem.flapCommand(m_driverController.button(6)::getAsBoolean, m_driverController.button(4)::getAsBoolean));
+    m_driverController.button(4).onChange(miscSubsystem.flapCommand(m_driverController.button(6)::getAsBoolean, m_driverController.button(4)::getAsBoolean));
     );
   }
 

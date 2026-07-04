@@ -26,16 +26,30 @@ public class MiscSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public MiscSubsystem() {}
 
-  public Command overrideCommand(
+  public Command climbCommand(
       BooleanSupplier climbRise,
-      BooleanSupplier climbFall,
+      BooleanSupplier climbFall) {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          int climbDelta = (climbRise.getAsBoolean() ? 1 : 0) + (climbFall.getAsBoolean() ? 0 : 1);
+          if (climbDelta > 0) {
+            climb.set(DoubleSolenoid.Value.kForward);
+          } else if (climbDelta < 0) {
+            climb.set(DoubleSolenoid.Value.kReverse);
+          } else {
+            climb.set(DoubleSolenoid.Value.kOff);
+          }
+        });
+  }
+  public Command flapCommand(
       BooleanSupplier flapRise,
       BooleanSupplier flapFall) {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
         () -> {
-          int climbDelta = (climbRise.getAsBoolean() ? 1 : 0) + (climbFall.getAsBoolean() ? 0 : 1);
           int flapDelta = (flapRise.getAsBoolean() ? 1 : 0) + (flapFall.getAsBoolean() ? 0 : 1);
 
           if (flapDelta > 0) {
@@ -44,14 +58,6 @@ public class MiscSubsystem extends SubsystemBase {
             flap.set(DoubleSolenoid.Value.kReverse);
           } else {
             flap.set(DoubleSolenoid.Value.kOff);
-          }
-
-          if (climbDelta > 0) {
-            climb.set(DoubleSolenoid.Value.kForward);
-          } else if (climbDelta < 0) {
-            climb.set(DoubleSolenoid.Value.kReverse);
-          } else {
-            climb.set(DoubleSolenoid.Value.kOff);
           }
         });
   }
