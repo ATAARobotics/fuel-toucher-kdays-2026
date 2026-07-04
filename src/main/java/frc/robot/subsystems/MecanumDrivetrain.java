@@ -26,7 +26,6 @@ public class MecanumDrivetrain extends SubsystemBase {
   public MecanumDrivetrain() {
 
     gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
-    gyro.setAngleAdjustment(ChassisConstants.GyroAdjustment);
 
     LeftFrontMotor = new SparkMax(ChassisConstants.FrontLeftMotorID, MotorType.kBrushless);
     RightFrontMotor = new SparkMax(ChassisConstants.FrontRightMotorID, MotorType.kBrushless);
