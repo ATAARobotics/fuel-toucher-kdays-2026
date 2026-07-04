@@ -33,13 +33,11 @@ public class MiscSubsystem extends SubsystemBase {
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
         () -> {
-          int climbDelta = (climbRise.getAsBoolean() ? 1 : 0) + (climbFall.getAsBoolean() ? 0 : 1);
+          int climbDelta = (climbRise.getAsBoolean() ? 1 : 0) + -(climbFall.getAsBoolean() ? 0 : 1);
           if (climbDelta > 0) {
             climb.set(DoubleSolenoid.Value.kForward);
           } else if (climbDelta < 0) {
             climb.set(DoubleSolenoid.Value.kReverse);
-          } else {
-            climb.set(DoubleSolenoid.Value.kOff);
           }
         });
   }
@@ -50,14 +48,12 @@ public class MiscSubsystem extends SubsystemBase {
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
         () -> {
-          int flapDelta = (flapRise.getAsBoolean() ? 1 : 0) + (flapFall.getAsBoolean() ? 0 : 1);
+          int flapDelta = (flapRise.getAsBoolean() ? 1 : 0) + -(flapFall.getAsBoolean() ? 0 : 1);
 
           if (flapDelta > 0) {
             flap.set(DoubleSolenoid.Value.kForward);
           } else if (flapDelta < 0) {
             flap.set(DoubleSolenoid.Value.kReverse);
-          } else {
-            flap.set(DoubleSolenoid.Value.kOff);
           }
         });
   }
