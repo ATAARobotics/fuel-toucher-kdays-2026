@@ -5,8 +5,6 @@ when:
 steps:
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
-    environment:
-      GRADLE_OPTS: -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit -Djdk.tls.disabledAlgorithms=""
     commands:
       - ./gradlew clean
       - ./gradlew build --scan --info --stacktrace
