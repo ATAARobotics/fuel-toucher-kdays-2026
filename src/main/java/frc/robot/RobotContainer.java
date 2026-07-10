@@ -5,10 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.FlapSubsystem;
 import frc.robot.subsystems.MecanumDrivetrain;
 
 /**
@@ -20,10 +23,12 @@ import frc.robot.subsystems.MecanumDrivetrain;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final MecanumDrivetrain mecanumDrive = new MecanumDrivetrain();
+  private final FlapSubsystem flapSubsystem = new FlapSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandJoystick m_driverController =
+      new CommandJoystick(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -43,9 +48,11 @@ public class RobotContainer {
   private void configureBindings() {
     mecanumDrive.setDefaultCommand(
         mecanumDrive.driveCommand(
-            m_driverController::getLeftX,
-            m_driverController::getLeftY,
-            m_driverController::getRightX));
+            m_driverController::getY, m_driverController::getY, m_driverController::getZ));
+    m_driverController.button(5).onTrue(climbSubsystem.climbRiseCommand());
+    m_driverController.button(3).onTrue(climbSubsystem.climbFallCommand());
+    m_driverController.button(6).onTrue(flapSubsystem.flapRiseCommand());
+    m_driverController.button(4).onTrue(flapSubsystem.flapFallCommand());
   }
 
   /**
