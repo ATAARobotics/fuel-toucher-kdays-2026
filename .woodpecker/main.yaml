@@ -6,11 +6,9 @@ steps:
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     environment:
-      GRADLE_OPTS: >-
-        -Djavax.net.ssl.trustAllCerts=true
     commands:
       - ./gradlew clean
-      - ./gradlew build --scan --info --stacktrace -Dhttps.cipherSuites=""
+      - ./gradlew build --scan --info --stacktrace -Djavax.net.ssl.trustStore=/dev/null -Djavax.net.ssl.trustStoreType=PKCS12 -Djavax.net.ssl.trustStorePassword=changeit
   - name: format
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     commands:
