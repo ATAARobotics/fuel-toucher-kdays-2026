@@ -6,11 +6,9 @@ steps:
   - name: sync-time
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     commands:
-      - apt-get update && apt-get install -y systemd
-      - timedatectl set-ntp true
-      - systemctl restart systemd-timesyncd
-      - sleep 10  # Wait for sync
-      - timedatectl  # Show status
+      - apt-get update && apt-get install -y ntpdate
+      - ntpdate -s pool.ntp.org
+      - date -u
 
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
