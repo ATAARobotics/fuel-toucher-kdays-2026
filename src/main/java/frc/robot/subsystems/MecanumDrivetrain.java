@@ -8,14 +8,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.studica.frc.AHRS;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ChassisConstants;
 import java.util.function.DoubleSupplier;
-
-import com.studica.frc.AHRS;
-
 
 public class MecanumDrivetrain extends SubsystemBase {
   private SparkMax LeftFrontMotor, RightFrontMotor, LeftBackMotor, RightBackMotor;
@@ -57,8 +55,10 @@ public class MecanumDrivetrain extends SubsystemBase {
           // math below done with assistance by AI
           // invert direction to cancel out relative direction instead of multiply
           double facingrad = -Math.toRadians(facing);
-          double xPrime = x.getAsDouble() * Math.cos(facingrad) - y.getAsDouble() * Math.sin(facingrad);
-          double yPrime = x.getAsDouble() * Math.sin(facingrad) + y.getAsDouble() * Math.cos(facingrad);
+          double xPrime =
+              x.getAsDouble() * Math.cos(facingrad) - y.getAsDouble() * Math.sin(facingrad);
+          double yPrime =
+              x.getAsDouble() * Math.sin(facingrad) + y.getAsDouble() * Math.cos(facingrad);
 
           drive.driveCartesian(xPrime, yPrime, z.getAsDouble());
         });
