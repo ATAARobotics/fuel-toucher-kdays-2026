@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.subsystems.ClimbSubsystem;
+import frc.robot.subsystems.FlapSubsystem;
 import frc.robot.subsystems.MecanumDrivetrain;
-import frc.robot.subsystems.MiscSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,7 +23,8 @@ import frc.robot.subsystems.MiscSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final MecanumDrivetrain mecanumDrive = new MecanumDrivetrain();
-  private final MiscSubsystem miscSubsystem = new MiscSubsystem();
+  private final FlapSubsystem flapSubsystem = new FlapSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandJoystick m_driverController =
@@ -47,30 +49,10 @@ public class RobotContainer {
     mecanumDrive.setDefaultCommand(
         mecanumDrive.driveCommand(
             m_driverController::getY, m_driverController::getY, m_driverController::getZ));
-    m_driverController
-        .button(5)
-        .onChange(
-            miscSubsystem.climbCommand(
-                m_driverController.button(5)::getAsBoolean,
-                m_driverController.button(3)::getAsBoolean));
-    m_driverController
-        .button(3)
-        .onChange(
-            miscSubsystem.climbCommand(
-                m_driverController.button(5)::getAsBoolean,
-                m_driverController.button(3)::getAsBoolean));
-    m_driverController
-        .button(6)
-        .onChange(
-            miscSubsystem.flapCommand(
-                m_driverController.button(6)::getAsBoolean,
-                m_driverController.button(4)::getAsBoolean));
-    m_driverController
-        .button(4)
-        .onChange(
-            miscSubsystem.flapCommand(
-                m_driverController.button(6)::getAsBoolean,
-                m_driverController.button(4)::getAsBoolean));
+    m_driverController.button(5).onTrue(climbSubsystem.climbRiseCommand());
+    m_driverController.button(3).onTrue(climbSubsystem.climbFallCommand());
+    m_driverController.button(6).onTrue(flapSubsystem.flapRiseCommand());
+    m_driverController.button(4).onTrue(flapSubsystem.flapFallCommand());
   }
 
   /**
