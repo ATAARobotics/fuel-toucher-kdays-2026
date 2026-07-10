@@ -3,18 +3,11 @@ when:
     branch: "**"
 
 steps:
-  - name: sync-time
-    image: wpilib/roborio-cross-ubuntu:2025-24.04
-    commands:
-      - apt-get update && apt-get install -y ntpdate ca-certificates
-      - echo "=== CLOCK BEFORE SYNC ==="
-      - date -u
-      - ntpdate -s pool.ntp.org
-      - echo "=== CLOCK AFTER SYNC ==="
-      - date -u
-
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
+    environment:
+      GRADLE_OPTS: >-
+        -Djavax.net.ssl.trustAllCerts=true
     commands:
       - ./gradlew clean
       - ./gradlew build --scan --info --stacktrace
