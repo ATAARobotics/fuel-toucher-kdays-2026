@@ -6,9 +6,13 @@ steps:
   - name: sync-time
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     commands:
-      - apt-get update && apt-get install -y ntpdate
+      # Install and force sync
+      - apt-get update && apt-get install -y ntpdate ca-certificates
       - ntpdate -s pool.ntp.org
-      - date -u
+      
+      # Also enable continuous sync for longer builds
+      - timedatectl set-ntp true
+      - date -u  # Log time for debugging
 
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
