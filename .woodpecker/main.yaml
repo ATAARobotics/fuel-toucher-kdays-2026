@@ -8,8 +8,6 @@ steps:
     environment:
       GRADLE_OPTS: >-
         -Djavax.net.ssl.trustAllCerts=true
-        -Djavax.net.ssl.hostnameVerifier=ANY
-        -Djsse.enableSNIExtension=false
     commands:
       - ./gradlew clean
       - ./gradlew build --scan --info --stacktrace -Dhttps.cipherSuites=""
