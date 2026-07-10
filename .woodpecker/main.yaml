@@ -6,7 +6,7 @@ steps:
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     commands:
-      - ./gradlew build
+      - ./gradlew build --scan
   - name: format
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     commands:
