@@ -16,6 +16,7 @@ steps:
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     commands:
+      - ./gradlew clean
       - ./gradlew build --scan --info --stacktrace
   - name: format
     image: wpilib/roborio-cross-ubuntu:2025-24.04
