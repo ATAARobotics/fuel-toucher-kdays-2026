@@ -3,27 +3,12 @@ when:
     branch: "**"
 
 steps:
-  - name: diagnose-env
+  - name: sync-time
     image: wpilib/roborio-cross-ubuntu:2025-24.04
     commands:
-      # Check system time
-      - echo "=== SYSTEM TIME ==="
-      - date -u
-      - date +%s
-      
-      # Check Java truststore age
-      - echo "=== JAVA TRUSTSTORE ==="
-      - java -version
-      - ls -la $JAVA_HOME/lib/security/cacerts
-      - keytool -list -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit 2>/dev/null | head -20
-      
-      # Check certificate directly
-      - echo "=== CERTIFICATE CHECK ==="
-      - curl -v https://dev.studica.com/maven/release/2026/ 2>&1 | grep -i "expire\|valid\|certificate"
-      
-      # Check TLS versions supported
-      - echo "=== TLS TEST ==="
-      - echo | openssl s_client -connect dev.studica.com:443 2>/dev/null | openssl x509 -noout -dates 2>/dev/null || echo "openssl not available"
+      - apk add --no-cache ntpdate
+      - ntpdate -s pool.ntp.org  # Synchronize with public NTP servers
+      - date -u  # Verify corrected time
 
   - name: build
     image: wpilib/roborio-cross-ubuntu:2025-24.04
