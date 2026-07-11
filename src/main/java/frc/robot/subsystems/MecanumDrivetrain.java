@@ -58,15 +58,15 @@ public class MecanumDrivetrain extends SubsystemBase {
 
   // Drive
   public Command driveCommand(DoubleSupplier xsup, DoubleSupplier ysup, DoubleSupplier zsup) {
-    gyro.reset();
     gyro.enableLogging(true);
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
         () -> {
-          if (gyro.isCalibrating()) {
-            return;
-          }
+          // if (gyro.isCalibrating()) {
+          //  return;
+          // }
+
           double x = xsup.getAsDouble();
           double y = ysup.getAsDouble();
           double z = zsup.getAsDouble() / 2;
