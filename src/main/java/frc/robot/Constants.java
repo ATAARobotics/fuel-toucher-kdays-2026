@@ -20,30 +20,29 @@ public final class Constants {
   public static class ChassisConstants {
     // CAN Motor IDs
     // FRONT LEFT                                             FRONT RIGHT
-    //      ┌───┐                                             ┌───┐
-    //      │   │                                             │   │
-    //      │   │═════════════════════════════════════════════│   │
-    //      │   │                                             │   │
-    //      └───┘                                             └───┘
-    //        ║                                                 ║
-    //        ║         ╔═╗┬ ┬┌─┐┬ ╔╦╗┌─┐┬ ┬┌─┐┬ ┬┌─┐┬─┐        ║
-    //        ║         ╠╣ │ │├┤ │  ║ │ ││ ││  ├─┤├┤ ├┬┘        ║
-    //        ║         ╚  └─┘└─┘┴─┘╩ └─┘└─┘└─┘┴ ┴└─┘┴└─        ║
-    //        ║                                                 ║
-    //      ┌───┐                                             ┌───┐
-    //      │   │                                             │   │
-    //      │   │═════════════════════════════════════════════│   │
-    //      │   │                                             │   │
-    //      └───┘                                             └───┘
-    //  BACK LEFT                                             BACK RIGHT
-    public static final int FrontLeftMotorID = 0;
-    public static final int BackLeftMotorID = 1;
+    //      ┌───┐                                                                           ┌───┐
+    //      │   │                                                                           │   │
+    //      │   │═══════════════════════════════════════════════════════════════════════════│   │
+    //      │   │                                                                           │   │
+    //      └───┘                                                                           └───┘
+    //        ║                        ╔═╗┬ ┬┌─┐┬ ╔╦╗┌─┐┬ ┬┌─┐┬ ┬┌─┐┬─┐                       ║
+    //        ║                        ╠╣ │ │├┤ │  ║ │ ││ ││  ├─┤├┤ ├┬┘                       ║
+    //        ║                        ╚  └─┘└─┘┴─┘╩ └─┘└─┘└─┘┴ ┴└─┘┴└─                       ║
+    //      ┌───┐                                                                           ┌───┐
+    //      │   │                                                                           │   │
+    //      │   │═══════════════════════════════════════════════════════════════════════════│   │
+    //      │   │                                                                           │   │
+    //      └───┘                                                                           └───┘
+    //  BACK LEFT                                                                           BACK
+    // RIGHT
+    public static final int FrontLeftMotorID = 1;
+    public static final int BackLeftMotorID = 3;
     public static final int FrontRightMotorID = 2;
-    public static final int BackRightMotorID = 3;
+    public static final int BackRightMotorID = 4;
 
-    public static final int ClimbSolenoid1ID = 1;
-    public static final int ClimbSolenoid2ID = 2;
-    public static final int FlapSolenoid1ID = 3;
-    public static final int FlapSolenoid2ID = 4;
+    public static final int ClimbSolenoid1ID = 5;
+    public static final int ClimbSolenoid2ID = 6;
+    public static final int FlapSolenoid1ID = 7;
+    public static final int FlapSolenoid2ID = 8;
   }
 }
