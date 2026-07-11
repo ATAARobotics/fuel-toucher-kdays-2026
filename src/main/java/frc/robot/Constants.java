@@ -40,9 +40,9 @@ public final class Constants {
     public static final int FrontRightMotorID = 2;
     public static final int BackRightMotorID = 4;
 
-    public static final int ClimbSolenoid1ID = 5;
-    public static final int ClimbSolenoid2ID = 6;
-    public static final int FlapSolenoid1ID = 7;
-    public static final int FlapSolenoid2ID = 8;
+    public static final int ClimbSolenoid1ID = 4;
+    public static final int ClimbSolenoid2ID = 5;
+    public static final int FlapSolenoid1ID = 6;
+    public static final int FlapSolenoid2ID = 7;
   }
 }
