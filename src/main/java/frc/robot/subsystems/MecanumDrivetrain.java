@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -36,43 +38,50 @@ public class MecanumDrivetrain extends SubsystemBase {
     SparkMaxConfig RightBackConfig = new SparkMaxConfig();
 
     LeftFrontConfig.idleMode(IdleMode.kBrake).inverted(false);
+    LeftFrontMotor.configure(
+        LeftFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     LeftBackConfig.idleMode(IdleMode.kBrake).inverted(false);
+    LeftBackMotor.configure(
+        LeftBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     RightFrontConfig.idleMode(IdleMode.kBrake).inverted(true);
+    RightFrontMotor.configure(
+        RightFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     RightBackConfig.idleMode(IdleMode.kBrake).inverted(true);
+    RightBackMotor.configure(
+        RightBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
     drive = new MecanumDrive(LeftFrontMotor, LeftBackMotor, RightFrontMotor, RightBackMotor);
   }
 
   // Drive
   public Command driveCommand(DoubleSupplier xsup, DoubleSupplier ysup, DoubleSupplier zsup) {
+    gyro.reset();
+    gyro.enableLogging(true);
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
         () -> {
+          if (gyro.isCalibrating()) {
+            return;
+          }
           double x = xsup.getAsDouble();
           double y = ysup.getAsDouble();
-          double z = zsup.getAsDouble();
-          if (x > 0.05 && x < -0.05) {
-            x = 0;
-          }
-          if (y > 0.05 && y < -0.05) {
-            y = 0;
-          }
-          if (z > 0.05 && z < -0.05) {
-            z = 0;
-          }
+          double z = zsup.getAsDouble() / 2;
+          // ChassisConstants.deadZone
 
-          double facing = gyro.getYaw();
-          // math below done with assistance by AI
           // invert direction to cancel out relative direction instead of multiply
-          double facingrad = -Math.toRadians(facing);
-          double xPrime = x * Math.cos(facingrad) - y * Math.sin(facingrad);
-          double yPrime = x * Math.sin(facingrad) + y * Math.cos(facingrad);
-
+          double facing = -gyro.getYaw();
+          System.out.println(facing);
+          // math below done with assistance by AI
+          double xPrime = x * Math.cos(facing) - y * Math.sin(facing);
+          double yPrime = y * Math.cos(facing) + x * Math.sin(facing);
           drive.driveCartesian(
-              xPrime * ChassisConstants.speedMult, yPrime * ChassisConstants.speedMult, z);
+              xPrime * ChassisConstants.speedMult,
+              -yPrime * ChassisConstants.speedMult,
+              z * ChassisConstants.speedMult);
         });
   }
 

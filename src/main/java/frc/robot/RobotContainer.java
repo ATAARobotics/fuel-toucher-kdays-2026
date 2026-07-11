@@ -48,7 +48,8 @@ public class RobotContainer {
   private void configureBindings() {
     mecanumDrive.setDefaultCommand(
         mecanumDrive.driveCommand(
-            m_driverController::getY, m_driverController::getY, m_driverController::getZ));
+            m_driverController::getY, m_driverController::getX, m_driverController::getTwist));
+
     m_driverController.button(5).onTrue(climbSubsystem.climbRiseCommand());
     m_driverController.button(3).onTrue(climbSubsystem.climbFallCommand());
     m_driverController.button(6).onTrue(flapSubsystem.flapRiseCommand());
