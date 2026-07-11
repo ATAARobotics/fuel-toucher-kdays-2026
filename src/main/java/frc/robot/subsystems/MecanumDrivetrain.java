@@ -46,21 +46,33 @@ public class MecanumDrivetrain extends SubsystemBase {
   }
 
   // Drive
-  public Command driveCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier z) {
+  public Command driveCommand(DoubleSupplier xsup, DoubleSupplier ysup, DoubleSupplier zsup) {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
         () -> {
+          double x = xsup.getAsDouble();
+          double y = ysup.getAsDouble();
+          double z = zsup.getAsDouble();
+          if (x > 0.05 && x < -0.05) {
+            x = 0;
+          }
+          if (y > 0.05 && y < -0.05) {
+            y = 0;
+          }
+          if (z > 0.05 && z < -0.05) {
+            z = 0;
+          }
+
           double facing = gyro.getYaw();
           // math below done with assistance by AI
           // invert direction to cancel out relative direction instead of multiply
           double facingrad = -Math.toRadians(facing);
-          double xPrime =
-              x.getAsDouble() * Math.cos(facingrad) - y.getAsDouble() * Math.sin(facingrad);
-          double yPrime =
-              x.getAsDouble() * Math.sin(facingrad) + y.getAsDouble() * Math.cos(facingrad);
+          double xPrime = x * Math.cos(facingrad) - y * Math.sin(facingrad);
+          double yPrime = x * Math.sin(facingrad) + y * Math.cos(facingrad);
 
-          drive.driveCartesian(xPrime, yPrime, z.getAsDouble());
+          drive.driveCartesian(
+              xPrime * ChassisConstants.speedMult, yPrime * ChassisConstants.speedMult, z);
         });
   }
 
