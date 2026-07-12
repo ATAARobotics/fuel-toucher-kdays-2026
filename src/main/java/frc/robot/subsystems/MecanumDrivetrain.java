@@ -11,6 +11,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXUpdateRate;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,8 +25,8 @@ public class MecanumDrivetrain extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public MecanumDrivetrain() {
-
-    gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+    gyro = new AHRS(AHRS.NavXComType.kMXP_SPI, NavXUpdateRate.k50Hz);
+    gyro.enableLogging(true);
 
     LeftFrontMotor = new SparkMax(ChassisConstants.FrontLeftMotorID, MotorType.kBrushless);
     RightFrontMotor = new SparkMax(ChassisConstants.FrontRightMotorID, MotorType.kBrushless);
@@ -58,7 +59,6 @@ public class MecanumDrivetrain extends SubsystemBase {
 
   // Drive
   public Command driveCommand(DoubleSupplier xsup, DoubleSupplier ysup, DoubleSupplier zsup) {
-    gyro.enableLogging(true);
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return run(
@@ -68,19 +68,27 @@ public class MecanumDrivetrain extends SubsystemBase {
           // }
 
           double x = xsup.getAsDouble();
-          double y = ysup.getAsDouble();
+          double y = -ysup.getAsDouble();
           double z = zsup.getAsDouble() / 2;
           // ChassisConstants.deadZone
-
+          if (x > -ChassisConstants.deadZone && x < ChassisConstants.deadZone) {
+            x = 0;
+          }
+          if (y > -ChassisConstants.deadZone && y < ChassisConstants.deadZone) {
+            y = 0;
+          }
+          if (z > -ChassisConstants.deadZone && z < ChassisConstants.deadZone) {
+            z = 0;
+          }
           // invert direction to cancel out relative direction instead of multiply
-          double facing = -gyro.getYaw();
+          double facing = Math.toRadians(-gyro.getYaw());
           System.out.println(facing);
           // math below done with assistance by AI
           double xPrime = x * Math.cos(facing) - y * Math.sin(facing);
           double yPrime = y * Math.cos(facing) + x * Math.sin(facing);
           drive.driveCartesian(
               xPrime * ChassisConstants.speedMult,
-              -yPrime * ChassisConstants.speedMult,
+              yPrime * ChassisConstants.speedMult,
               z * ChassisConstants.speedMult);
         });
   }
