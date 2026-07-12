@@ -12,6 +12,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXUpdateRate;
+
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -25,9 +27,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ChassisConstants;
 import java.util.function.DoubleSupplier;
-import java.util.logging.LogManager;
+import frc.robot.LimelightHelpers;
 
 public class MecanumDrivetrain extends SubsystemBase {
+  private LimelightHelpers lime = new LimelightHelpers();
   private SparkMax LeftFrontMotor =
       new SparkMax(ChassisConstants.FrontLeftMotorID, MotorType.kBrushless);
   private SparkMax RightFrontMotor =
@@ -50,10 +53,8 @@ public class MecanumDrivetrain extends SubsystemBase {
           m_kinematics,
           gyro.getRotation2d(),
           new MecanumDriveWheelPositions(
-              LeftFrontMotor.getAbsoluteEncoder().getPosition(),
-                  RightFrontMotor.getAbsoluteEncoder().getPosition(),
-              LeftBackMotor.getAbsoluteEncoder().getPosition(),
-                  RightBackMotor.getAbsoluteEncoder().getPosition()),
+              -LeftFrontMotor.getEncoder().getPosition(), -RightFrontMotor.getEncoder().getPosition(),
+              -LeftBackMotor.getEncoder().getPosition(), -RightBackMotor.getEncoder().getPosition()),
           new Pose2d(0, 0, new Rotation2d()));
   private Pose2d pose = new Pose2d(0, 0, new Rotation2d());
   private Field2d field = new Field2d();
@@ -71,29 +72,29 @@ public class MecanumDrivetrain extends SubsystemBase {
 
     LeftFrontConfig.idleMode(IdleMode.kBrake)
         .inverted(false)
-        .absoluteEncoder
-        .positionConversionFactor(4.1887902);
+        .encoder
+        .positionConversionFactor(0.10639527);
     LeftFrontMotor.configure(
         LeftFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     LeftBackConfig.idleMode(IdleMode.kBrake)
         .inverted(false)
-        .absoluteEncoder
-        .positionConversionFactor(4.1887902);
+        .encoder
+        .positionConversionFactor(0.10639527);
     LeftBackMotor.configure(
         LeftBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     RightFrontConfig.idleMode(IdleMode.kBrake)
         .inverted(true)
-        .absoluteEncoder
-        .positionConversionFactor(4.1887902);
+        .encoder
+        .positionConversionFactor(0.10639527);
     RightFrontMotor.configure(
         RightFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     RightBackConfig.idleMode(IdleMode.kBrake)
         .inverted(true)
-        .absoluteEncoder
-        .positionConversionFactor(4.1887902);
+        .encoder
+        .positionConversionFactor(0.10639527);
     RightBackMotor.configure(
         RightBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -152,17 +153,17 @@ public class MecanumDrivetrain extends SubsystemBase {
     // Get my wheel positions
     var wheelPositions =
         new MecanumDriveWheelPositions(
-            LeftFrontMotor.getAbsoluteEncoder().getPosition(),
-                RightFrontMotor.getAbsoluteEncoder().getPosition(),
-            LeftBackMotor.getAbsoluteEncoder().getPosition(),
-                RightBackMotor.getAbsoluteEncoder().getPosition());
+            -LeftFrontMotor.getEncoder().getPosition(), -RightFrontMotor.getEncoder().getPosition(),
+            -LeftBackMotor.getEncoder().getPosition(), -RightBackMotor.getEncoder().getPosition());
     // Get the rotation of the robot from the gyro.
     var gyroAngle = gyro.getRotation2d();
     // Update the pose
     pose = m_odometry.update(gyroAngle, wheelPositions);
+);
+
     field.setRobotPose(pose);
     SmartDashboard.putData(field);
-    System.out.println(RightBackMotor.getAbsoluteEncoder().getPosition());
+    System.out.println(RightBackMotor.getEncoder().getPosition());
   }
 
   @Override
