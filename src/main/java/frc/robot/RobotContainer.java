@@ -4,12 +4,16 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.*;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.FlapSubsystem;
 import frc.robot.subsystems.MecanumDrivetrain;
@@ -21,6 +25,7 @@ import frc.robot.subsystems.MecanumDrivetrain;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  private final SendableChooser<Command> autoChooser;
   // The robot's subsystems and commands are defined here...
   private final MecanumDrivetrain mecanumDrive = new MecanumDrivetrain();
   private final FlapSubsystem flapSubsystem = new FlapSubsystem();
@@ -32,8 +37,20 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    NamedCommands.registerCommand("raiseClimb", climbSubsystem.climbRiseCommand());
+    NamedCommands.registerCommand("lowerClimb", climbSubsystem.climbFallCommand());
+    NamedCommands.registerCommand("raiseFlap", flapSubsystem.flapRiseCommand());
+    NamedCommands.registerCommand("lowerFlap", flapSubsystem.flapFallCommand());
+
     // Configure the trigger bindings
     configureBindings();
+    // Build an auto chooser. This will use Commands.none() as the default option.
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    // Another option that allows you to specify the default auto by its name
+    // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   /**
@@ -48,12 +65,16 @@ public class RobotContainer {
   private void configureBindings() {
     mecanumDrive.setDefaultCommand(
         mecanumDrive.driveCommand(
-            m_driverController::getY, m_driverController::getX, m_driverController::getTwist));
+            m_driverController::getX,
+            m_driverController::getY,
+            m_driverController::getTwist,
+            m_driverController.trigger()::getAsBoolean));
 
     m_driverController.button(5).onTrue(climbSubsystem.climbRiseCommand());
     m_driverController.button(3).onTrue(climbSubsystem.climbFallCommand());
     m_driverController.button(6).onTrue(flapSubsystem.flapRiseCommand());
     m_driverController.button(4).onTrue(flapSubsystem.flapFallCommand());
+    m_driverController.button(2).onTrue(mecanumDrive.resetGyroCommand());
   }
 
   /**
@@ -62,7 +83,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(mecanumDrive);
+    // This method loads the auto when it is called, however, it is recommended
+    // to first load your paths/autos when code starts, then return the
+    // pre-loaded auto/path
+    return autoChooser.getSelected();
   }
 }

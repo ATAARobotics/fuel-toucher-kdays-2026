@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "getinpos"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "raiseClimb"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 20.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "getinpos2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "lowerClimb"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
