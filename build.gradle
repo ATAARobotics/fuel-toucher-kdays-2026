@@ -12,6 +12,8 @@ java {
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
+deleteOldFiles = true
+
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
 deploy {
