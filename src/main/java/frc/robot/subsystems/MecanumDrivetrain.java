@@ -74,7 +74,6 @@ public class MecanumDrivetrain extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public MecanumDrivetrain() {
     gyro.enableLogging(true);
-    System.out.println(gyro.getFirmwareVersion());
     gyro.reset();
 
     SparkMaxConfig LeftFrontConfig = new SparkMaxConfig();
