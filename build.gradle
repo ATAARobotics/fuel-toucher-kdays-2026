@@ -12,8 +12,6 @@ java {
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
-deleteOldFiles = true
-
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
 deploy {
@@ -25,6 +23,7 @@ deploy {
             // want to store a team number in this file.
             team = project.frc.getTeamNumber()
             debug = project.frc.getDebugOrDefault(false)
+            deleteOldFiles = true
 
             artifacts {
                 // First part is artifact name, 2nd is artifact type
