@@ -39,7 +39,7 @@ public final class Constants {
     public static final int BackLeftMotorID = 3;
     public static final int FrontRightMotorID = 2;
     public static final int BackRightMotorID = 4;
-    public static final double speedMult = 0.85f;
+    public static final double speedMult = 1f;
     public static final double deadZone = 0.07f;
 
     public static final int ClimbSolenoid1ID = 4;
