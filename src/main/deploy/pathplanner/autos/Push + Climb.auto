@@ -11,9 +11,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "raiseFlap"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "goof"
           }
         },
         {

@@ -17,6 +17,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "raiseFlap"
+          }
+        },
+        {
           "type": "wait",
           "data": {
             "waitTime": 20.0
