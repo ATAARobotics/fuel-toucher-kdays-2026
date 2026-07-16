@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.FeedForwardConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXUpdateRate;
@@ -87,7 +88,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    LeftFrontConfig.closedLoop.pid(0.1, 0, 0);
+    LeftFrontConfig.closedLoop.pid(0.02, 0, 0.5).feedForward.kV(1.18);
     LeftFrontMotor.configure(
         LeftFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -97,7 +98,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    LeftBackConfig.closedLoop.pid(0.1, 0, 0);
+    LeftBackConfig.closedLoop.pid(0.02, 0, 0.5).feedForward.kV(1.18);
 
     LeftBackMotor.configure(
         LeftBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -108,7 +109,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    RightFrontConfig.closedLoop.pid(0.1, 0, 0);
+    RightFrontConfig.closedLoop.pid(0.02, 0, 0.5).feedForward.kV(1.18);
 
     RightFrontMotor.configure(
         RightFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -119,7 +120,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    RightBackConfig.closedLoop.pid(0.1, 0, 0);
+    RightBackConfig.closedLoop.pid(0.02, 0, 0.5).feedForward.kV(1.18);
 
     RightBackMotor.configure(
         RightBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
