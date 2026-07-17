@@ -8,6 +8,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.controllers.PPLTVController;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -146,11 +147,7 @@ public class MecanumDrivetrain extends SubsystemBase {
             driveRobotRelative(
                 speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds.
         // Also optionally outputs individual module feedforwards
-        new PPHolonomicDriveController( // PPHolonomicController is the built in path following
-            // controller for holonomic drive trains
-            new PIDConstants(4, 0.0, 2.0), // Translation PID constants
-            new PIDConstants(4, 0.0, 2.0) // Rotation PID constants
-            ),
+        new PPLTVController(0.02),
         config, // The robot configuration
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red alliance
