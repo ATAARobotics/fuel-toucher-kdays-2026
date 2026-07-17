@@ -87,7 +87,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    LeftFrontConfig.closedLoop.pid(0.04, 0, 0.2).feedForward.kV(1.18);
+    LeftFrontConfig.closedLoop.pid(0.02, 0, 0.2).feedForward.kV(1.18);
     LeftFrontMotor.configure(
         LeftFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -97,7 +97,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    LeftBackConfig.closedLoop.pid(0.04, 0, 0.2).feedForward.kV(1.18);
+    LeftBackConfig.closedLoop.pid(0.02, 0, 0.2).feedForward.kV(1.18);
 
     LeftBackMotor.configure(
         LeftBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -108,7 +108,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    RightFrontConfig.closedLoop.pid(0.04, 0, 0.2).feedForward.kV(1.18);
+    RightFrontConfig.closedLoop.pid(0.02, 0, 0.2).feedForward.kV(1.18);
 
     RightFrontMotor.configure(
         RightFrontConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -119,7 +119,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         .positionConversionFactor(0.10639527)
         .velocityConversionFactor(0.10639527 / 60);
 
-    RightBackConfig.closedLoop.pid(0.04, 0, 0.2).feedForward.kV(1.18);
+    RightBackConfig.closedLoop.pid(0.02, 0, 0.2).feedForward.kV(1.18);
 
     RightBackMotor.configure(
         RightBackConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -148,8 +148,8 @@ public class MecanumDrivetrain extends SubsystemBase {
         // Also optionally outputs individual module feedforwards
         new PPHolonomicDriveController( // PPHolonomicController is the built in path following
             // controller for holonomic drive trains
-            new PIDConstants(50, 0.0, 0.0), // Translation PID constants
-            new PIDConstants(50, 0.0, 0.0) // Rotation PID constants
+            new PIDConstants(4, 0.0, 2.0), // Translation PID constants
+            new PIDConstants(4, 0.0, 2.0) // Rotation PID constants
             ),
         config, // The robot configuration
         () -> {
