@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Push + Climb"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "raiseClimb"
@@ -14,12 +20,6 @@
           "type": "named",
           "data": {
             "name": "raiseFlap"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "goof"
           }
         },
         {

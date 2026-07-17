@@ -8,10 +8,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.controllers.PPLTVController;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -147,7 +145,11 @@ public class MecanumDrivetrain extends SubsystemBase {
             driveRobotRelative(
                 speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds.
         // Also optionally outputs individual module feedforwards
-        new PPLTVController(0.02),
+        new PPHolonomicDriveController( // PPHolonomicController is the built in path following
+            // controller for holonomic drive trains
+            new PIDConstants(7.0, 0.0, 10.0), // Translation PID constants
+            new PIDConstants(7.0, 0.0, 10.0) // Rotation PID constants
+            ),
         config, // The robot configuration
         () -> {
           // Boolean supplier that controls when the path will be mirrored for the red alliance
@@ -181,15 +183,19 @@ public class MecanumDrivetrain extends SubsystemBase {
     // drive.driveCartesian(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond,
     // speeds.omegaRadiansPerSecond);
 
-    
-    RightBackMotor.getClosedLoopController()
-        .setSetpoint(wspeeds.rearRightMetersPerSecond, ControlType.kVelocity);
-    LeftBackMotor.getClosedLoopController()
-        .setSetpoint(wspeeds.rearLeftMetersPerSecond, ControlType.kVelocity);
-    RightFrontMotor.getClosedLoopController()
-        .setSetpoint(wspeeds.frontRightMetersPerSecond, ControlType.kVelocity);
-    LeftFrontMotor.getClosedLoopController()
-        .setSetpoint(wspeeds.frontLeftMetersPerSecond, ControlType.kVelocity);
+    drive.driveCartesian(
+        speeds.vxMetersPerSecond / 5,
+        speeds.vyMetersPerSecond / 5,
+        speeds.omegaRadiansPerSecond / 5 / 10 / 5);
+
+    // RightBackMotor.getClosedLoopController()
+    //     .setSetpoint(wspeeds.rearRightMetersPerSecond, ControlType.kVelocity);
+    // LeftBackMotor.getClosedLoopController()
+    //     .setSetpoint(wspeeds.rearLeftMetersPerSecond, ControlType.kVelocity);
+    // RightFrontMotor.getClosedLoopController()
+    //     .setSetpoint(wspeeds.frontRightMetersPerSecond, ControlType.kVelocity);
+    // LeftFrontMotor.getClosedLoopController()
+    //     .setSetpoint(wspeeds.frontLeftMetersPerSecond, ControlType.kVelocity);
 
     SmartDashboard.putNumber("FrontLeft", LeftFrontMotor.getEncoder().getVelocity());
     SmartDashboard.putNumber("FrontLeftGoal", wspeeds.frontLeftMetersPerSecond);
