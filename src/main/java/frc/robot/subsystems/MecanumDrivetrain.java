@@ -252,10 +252,10 @@ public class MecanumDrivetrain extends SubsystemBase {
           double yPrime = y * Math.cos(facing) + x * Math.sin(facing);
           drive.driveCartesian(
               xPrime * ChassisConstants.speedMult,
-              yPrime * ChassisConstants.speedMult,
+              yPrime * ChassisConstants.speedMult / 1.5,
               z * ChassisConstants.speedMult);
           gox = xPrime * ChassisConstants.speedMult;
-          goy = yPrime * ChassisConstants.speedMult;
+          goy = yPrime * ChassisConstants.speedMult / 1.5;
           goz = z * ChassisConstants.speedMult;
         });
   }
@@ -266,6 +266,7 @@ public class MecanumDrivetrain extends SubsystemBase {
     return runOnce(
         () -> {
           gyro.reset();
+          m_odometry.resetRotation(new Rotation2d());
         });
   }
 
