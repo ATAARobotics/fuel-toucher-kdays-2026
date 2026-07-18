@@ -42,9 +42,9 @@ public final class Constants {
     public static final double speedMult = 1f;
     public static final double deadZone = 0.07f;
 
-    public static final int ClimbSolenoid1ID = 4;
-    public static final int ClimbSolenoid2ID = 5;
-    public static final int FlapSolenoid1ID = 6;
-    public static final int FlapSolenoid2ID = 7;
+    public static final int ClimbSolenoid1ID = 0;
+    public static final int ClimbSolenoid2ID = 1;
+    public static final int FlapSolenoid1ID = 2;
+    public static final int FlapSolenoid2ID = 3;
   }
 }
