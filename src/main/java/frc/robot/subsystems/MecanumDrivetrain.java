@@ -254,7 +254,7 @@ public class MecanumDrivetrain extends SubsystemBase {
               xPrime * ChassisConstants.speedMult,
               yPrime * ChassisConstants.speedMult / 1.5,
               z * ChassisConstants.speedMult);
-          gox = xPrime * ChassisConstants.speedMult;
+          gox = xPrime * ChassisConstants.speedMult * 2;
           goy = yPrime * ChassisConstants.speedMult / 1.5;
           goz = z * ChassisConstants.speedMult;
         });
