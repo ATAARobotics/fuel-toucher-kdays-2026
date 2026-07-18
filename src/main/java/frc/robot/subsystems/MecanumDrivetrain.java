@@ -266,7 +266,11 @@ public class MecanumDrivetrain extends SubsystemBase {
     return runOnce(
         () -> {
           gyro.reset();
-          m_odometry.resetRotation(new Rotation2d());
+          if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+            m_odometry.resetRotation(new Rotation2d(0.5 * Math.PI));
+          } else {
+            m_odometry.resetRotation(new Rotation2d());
+          }
         });
   }
 
