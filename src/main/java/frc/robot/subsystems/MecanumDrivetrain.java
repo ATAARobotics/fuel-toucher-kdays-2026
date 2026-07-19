@@ -250,15 +250,15 @@ public class MecanumDrivetrain extends SubsystemBase {
           //  facing = pose.getRotation().getRadians();
           // }
           if (!isFieldCentric) {
-            facing = 0;
+            facing = Math.toRadians(180);
           }
 
           // math below done with assistance by AI
           double xPrime = x * Math.cos(facing) - y * Math.sin(facing);
           double yPrime = y * Math.cos(facing) + x * Math.sin(facing);
           drive.driveCartesian(
-              xPrime * ChassisConstants.speedMult,
-              yPrime * ChassisConstants.speedMult / 1.5,
+              xPrime * ChassisConstants.speedMult * 3,
+              yPrime * ChassisConstants.speedMult / 2.5,
               z * ChassisConstants.speedMult);
           gox = xPrime * ChassisConstants.speedMult * 3;
           goy = yPrime * ChassisConstants.speedMult / 2.5;
