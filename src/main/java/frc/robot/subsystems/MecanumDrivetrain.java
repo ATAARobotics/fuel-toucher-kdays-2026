@@ -257,11 +257,11 @@ public class MecanumDrivetrain extends SubsystemBase {
           double xPrime = x * Math.cos(facing) - y * Math.sin(facing);
           double yPrime = y * Math.cos(facing) + x * Math.sin(facing);
           drive.driveCartesian(
-              xPrime * ChassisConstants.speedMult,
-              yPrime * ChassisConstants.speedMult/3,
+              xPrime * ChassisConstants.speedMult * 3,
+              yPrime * ChassisConstants.speedMult / 8,
               z * ChassisConstants.speedMult);
-          gox = xPrime * ChassisConstants.speedMult;
-          goy = yPrime * ChassisConstants.speedMult/3;
+          gox = xPrime * ChassisConstants.speedMult * 3;
+          goy = yPrime * ChassisConstants.speedMult / 8;
           goz = z * ChassisConstants.speedMult;
         });
   }
