@@ -37,6 +37,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class MecanumDrivetrain extends SubsystemBase {
+  private boolean isFieldCentric = true;
   private RobotConfig config;
   private SparkMax LeftFrontMotor =
       new SparkMax(ChassisConstants.FrontLeftMotorID, MotorType.kBrushless);
@@ -72,6 +73,7 @@ public class MecanumDrivetrain extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public MecanumDrivetrain() {
+    SmartDashboard.putBoolean("FieldCentric", isFieldCentric);
     gyro.enableLogging(true);
     gyro.reset();
 
@@ -221,13 +223,14 @@ public class MecanumDrivetrain extends SubsystemBase {
           if (gyro.isCalibrating()) {
             return;
           }
+          SmartDashboard.putBoolean("FieldCentric", isFieldCentric);
 
           double y = xsup.getAsDouble();
           double x = -ysup.getAsDouble();
           double z = zsup.getAsDouble();
 
           if (!fast.getAsBoolean()) {
-            z = z / 4;
+            z = z / 6;
           }
           // ChassisConstants.deadZone
           if (x > -ChassisConstants.deadZone && x < ChassisConstants.deadZone) {
@@ -246,6 +249,9 @@ public class MecanumDrivetrain extends SubsystemBase {
           // } else {
           //  facing = pose.getRotation().getRadians();
           // }
+          if (!isFieldCentric) {
+            facing = 0;
+          }
 
           // math below done with assistance by AI
           double xPrime = x * Math.cos(facing) - y * Math.sin(facing);
@@ -271,6 +277,24 @@ public class MecanumDrivetrain extends SubsystemBase {
           } else {
             m_odometry.resetRotation(new Rotation2d());
           }
+        });
+  }
+
+  public Command fieldCentricCommand() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          isFieldCentric = true;
+        });
+  }
+
+  public Command robotCentricCommand() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+    return runOnce(
+        () -> {
+          isFieldCentric = false;
         });
   }
 
