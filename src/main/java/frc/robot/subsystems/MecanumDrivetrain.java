@@ -37,7 +37,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class MecanumDrivetrain extends SubsystemBase {
-  private boolean isFieldCentric = true;
+  private boolean isFieldCentric = false;
   private RobotConfig config;
   private SparkMax LeftFrontMotor =
       new SparkMax(ChassisConstants.FrontLeftMotorID, MotorType.kBrushless);
