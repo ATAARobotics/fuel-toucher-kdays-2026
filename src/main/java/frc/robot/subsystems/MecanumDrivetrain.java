@@ -241,11 +241,11 @@ public class MecanumDrivetrain extends SubsystemBase {
           }
           // invert direction to cancel out relative direction instead of multiply
           double facing = Math.toRadians(-gyro.getYaw());
-          //if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+          // if (DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
           //  facing = pose.getRotation().getRadians() + Math.PI;
-          //} else {
+          // } else {
           //  facing = pose.getRotation().getRadians();
-          //}
+          // }
 
           // math below done with assistance by AI
           double xPrime = x * Math.cos(facing) - y * Math.sin(facing);
@@ -254,8 +254,8 @@ public class MecanumDrivetrain extends SubsystemBase {
               xPrime * ChassisConstants.speedMult,
               yPrime * ChassisConstants.speedMult / 1.5,
               z * ChassisConstants.speedMult);
-          gox = xPrime * ChassisConstants.speedMult * 2;
-          goy = yPrime * ChassisConstants.speedMult / 1.5;
+          gox = xPrime * ChassisConstants.speedMult * 3;
+          goy = yPrime * ChassisConstants.speedMult / 2.5;
           goz = z * ChassisConstants.speedMult;
         });
   }

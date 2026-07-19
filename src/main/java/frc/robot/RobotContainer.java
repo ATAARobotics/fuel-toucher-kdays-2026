@@ -73,7 +73,7 @@ public class RobotContainer {
     m_driverController.button(3).onTrue(climbSubsystem.climbFallCommand());
     m_driverController.button(6).onTrue(flapSubsystem.flapRiseCommand());
     m_driverController.button(4).onTrue(flapSubsystem.flapFallCommand());
-    m_driverController.button(2).onTrue(mecanumDrive.resetGyroCommand());
+    m_driverController.button(2).whileTrue(mecanumDrive.resetGyroCommand());
   }
 
   /**
